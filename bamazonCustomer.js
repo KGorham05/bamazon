@@ -10,6 +10,16 @@ const connection = mysql.createConnection({
     database: "bamazon_db"
 });
 
+const displayProducts = (res) => {
+    for (var i in res) {
+        console.log("Item #: " + res[i].item_id +
+            " Product: " + res[i].product_name +
+            " Price: " + res[i].price +
+            " Quantity " + res[i].stock_quantity)
+    }
+}
+
+
 // connect to the mysql server and sql database
 connection.connect(err => {
     if (err) throw err;
@@ -21,11 +31,8 @@ const start = () => {
     connection.query("SELECT * FROM products", (err, res) => {
         if (err) throw err;
         // Log all results of the SELECT statement
-        for (var i in res) {
-            console.log("Item #: " + res[i].item_id +
-                " Product: " + res[i].product_name +
-                " Price: " + res[i].price)
-        }
+        displayProducts(res);
+
         // The app should then prompt users with two messages.
         inquirer
             .prompt([
@@ -39,14 +46,40 @@ const start = () => {
                     name: "quantity",
                     type: "input",
                     message: "How many units would you like to order?",
-                    validate: function(value) {
+                    validate: function (value) {
                         if (isNaN(value) === false) {
-                          return true;
+                            return true;
                         }
                         return false;
-                      }
+                    }
                 }
-            ])
+            ]).then(function (data) {
+
+                let itemId = data.itemChoice;
+                let quantity = data.quantity;
+                // Once the customer has placed the order, your application should check if your store has enough of the product to meet the customer's request.
+                if (res[itemId - 1].stock_quantity < quantity) {
+                    // If not, the app should log a phrase like Insufficient quantity!, and then prevent the order from going through. 
+                    console.log("\nInsufficient quantity! Your order will not go through!\n");
+                    start();
+                } else {
+                    console.log("that should work!")
+                    // However, if your store does have enough of the product, you should fulfill the customer's order.
+                    // This means updating the SQL database to reflect the remaining quantity.
+                    connection.query("UPDATE products SET ? WHERE ?", [
+                        {
+                            stock_quantity: (res[itemId - 1].stock_quantity - quantity)
+                        },
+                        {
+                            item_id: itemId
+                        }
+                    ], (err, response) => {
+                        if (err) throw err;
+                        // Once the update goes through, show the customer the total cost of their purchase.
+                        // displayProducts(response);
+                    })
+                }
+            });
     });
 }
 
@@ -55,19 +88,10 @@ const start = () => {
 
 
 
-// Once the customer has placed the order, your application should check if your store has enough of the product to meet the customer's request.
 
 
 
-// If not, the app should log a phrase like Insufficient quantity!, and then prevent the order from going through.
 
-
-
-// However, if your store does have enough of the product, you should fulfill the customer's order.
-
-
-// This means updating the SQL database to reflect the remaining quantity.
-// Once the update goes through, show the customer the total cost of their purchase.
 
 
 
