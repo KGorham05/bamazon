@@ -14,8 +14,7 @@ const displayProducts = (res) => {
     for (var i in res) {
         console.log("Item #: " + res[i].item_id +
             " Product: " + res[i].product_name +
-            " Price: " + res[i].price +
-            " Quantity " + res[i].stock_quantity)
+            " Price: " + res[i].price)
     }
 }
 
@@ -76,7 +75,8 @@ const start = () => {
                     ], (err, response) => {
                         if (err) throw err;
                         // Once the update goes through, show the customer the total cost of their purchase.
-                        // displayProducts(response);
+                        console.log(`The total cost of your purchase is $ ${(res[itemId-1].price * quantity).toFixed(2)} `);
+                        start();
                     })
                 }
             });
