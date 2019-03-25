@@ -1,6 +1,9 @@
 const mysql = require("mysql");
 const inquirer = require("inquirer");
 let itemArr = [];
+let itemFunc = () => {
+    return itemArr
+};
 
 // create the connection information to sql database
 const connection = mysql.createConnection({
@@ -64,15 +67,14 @@ function addToInventory() {
     connection.query("SELECT * FROM products", (err, res) => {
         if (err) throw err;
         for (var i in res) {
-            itemArr.push("Item #: " + res[i].item_id +
-                " Product: " + res[i].product_name +
-                " Quantity: " + res[i].stock_quantity)
+            itemArr.push(res[i].product_name)
         }
         connection.end();
-    })
+        // console.log(itemArr);
+    });
     inquirer.prompt([
         {
-            type: "rawlist",
+            type: "list",
             name: "item",
             message: "What item would you like to add more of?",
             choices: itemArr
