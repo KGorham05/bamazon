@@ -1,5 +1,6 @@
 const mysql = require("mysql");
 const inquirer = require("inquirer");
+let itemArr = [];
 
 // create the connection information to sql database
 const connection = mysql.createConnection({
@@ -32,7 +33,7 @@ function viewLowInventory() {
         for (var i in res) {
             if (res[i].stock_quantity < 5) {
                 console.log("Product: " + res[i].product_name +
-                    "Quantity: " + res[i].stock_quantity)
+                    " Quantity: " + res[i].stock_quantity)
             }
         }
         connection.end();
@@ -58,8 +59,17 @@ function addNewProduct() {
 };
 
 function addToInventory() {
-    console.log("Addint to inventory\n");
+    console.log("Add to inventory\n");
     // If a manager selects Add to Inventory, your app should display a prompt that will let the manager "add more" of any item currently in the store
+    connection.query("SELECT * FROM products", (err, res) => {
+        if (err) throw err;
+        for (var i in res) {
+            itemArr.push("Item #: " + res[i].item_id +
+                " Product: " + res[i].product_name +
+                " Quantity: " + res[i].stock_quantity)
+        }
+        connection.end();
+    })
     inquirer.prompt([
         {
             type: "rawlist",
@@ -77,7 +87,7 @@ function addToInventory() {
             "UPDATE products SET ? WHERE ?",
             [
                 {
-                    stock_quantity: (stock_quantity + data.number )
+                    stock_quantity: (stock_quantity + data.number)
                 },
                 {
                     product_name: data.item
@@ -88,7 +98,7 @@ function addToInventory() {
             }
         )
     });
-}
+};
 
 connection.connect(err => {
     if (err) throw err;
