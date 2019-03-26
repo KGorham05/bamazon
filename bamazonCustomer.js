@@ -1,6 +1,6 @@
-const mysql = require("mysql");
-const inquirer = require("inquirer");
-
+const   mysql       = require("mysql");
+const   inquirer    = require("inquirer");
+let     totalCost   = '';
 // create the connection information to sql database
 const connection = mysql.createConnection({
     host: "localhost",
@@ -56,6 +56,7 @@ const start = () => {
 
                 let itemId = data.itemChoice;
                 let quantity = data.quantity;
+                totalCost = (res[itemId-1].price * quantity).toFixed(2);
                 // Once the customer has placed the order, your application should check if your store has enough of the product to meet the customer's request.
                 if (res[itemId - 1].stock_quantity < quantity) {
                     // If not, the app should log a phrase like Insufficient quantity!, and then prevent the order from going through. 
@@ -67,16 +68,18 @@ const start = () => {
                     // This means updating the SQL database to reflect the remaining quantity.
                     connection.query("UPDATE products SET ? WHERE ?", [
                         {
-                            stock_quantity: (res[itemId - 1].stock_quantity - quantity)
+                            stock_quantity: (res[itemId - 1].stock_quantity - quantity),
+                            product_sales: totalCost
                         },
+                      
                         {
                             item_id: itemId
                         }
                     ], (err, response) => {
                         if (err) throw err;
                         // Once the update goes through, show the customer the total cost of their purchase.
-                        console.log(`The total cost of your purchase is $ ${(res[itemId-1].price * quantity).toFixed(2)} `);
-                        start();
+                        console.log(`The total cost of your purchase is $ ${totalCost} `);
+                        connection.end();
                     })
                 }
             });

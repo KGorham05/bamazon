@@ -105,17 +105,15 @@ function addToInventory() {
             }
         ]).then((data) => {
             connection.query(
-                "UPDATE products SET ? WHERE ?",
+                `UPDATE products SET stock_quantity = stock_quantity+${data.number} WHERE ?`,
                 [
-                    {
-                        stock_quantity: (stock_quantity + data.number)
-                    },
                     {
                         product_name: data.item
                     }
                 ],
                 (err, res) => {
                     console.log(res.affectedRows + " products updated!\n");
+                    viewProducts();
                 }
             )
         });
