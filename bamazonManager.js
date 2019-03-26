@@ -1,9 +1,6 @@
 const mysql = require("mysql");
 const inquirer = require("inquirer");
 let itemArr = [];
-let itemFunc = () => {
-    return itemArr
-};
 
 // create the connection information to sql database
 const connection = mysql.createConnection({
@@ -45,20 +42,44 @@ function viewLowInventory() {
 
 
 function addNewProduct() {
-    console.log("Inserting a new product...\n");
-    var query = connection.query(
-        "INSERT INTO products SET ?",
+    inquirer.prompt([
         {
-            flavor: "Rocky Road",
-            price: 3.0,
-            quantity: 50
+            type: "input",
+            name: "newProductName",
+            message: "Name the item"
         },
-        (err, res) => {
-            console.log(res.affectedRows + " product inserted!\n");
-            // Call updateProduct AFTER the INSERT completes
-            updateProduct();
+        {
+            type: "input",
+            name: "newProductDept",
+            message: "Name the department this item belongs in"
+        },
+        {
+            type: "input",
+            name: "newProductPrice",
+            message: "Set the price of this new item"
+        },
+        {
+            type: "input",
+            name: "stockQuantity",
+            message: "How many do you want to add to inventory?"
+
         }
-    );
+    ]).then((data) => {
+        console.log("Inserting a new product...\n");
+        var query = connection.query(
+            "INSERT INTO products SET ?",
+            {
+                product_name: data.newProductName,
+                department_name: data.newProductDept,
+                price: data.newProductPrice,
+                stock_quantity: data.stockQuantity
+            },
+            (err, res) => {
+                console.log(res.affectedRows + " product inserted!\n");
+                viewProducts();
+            }
+        );
+    })
 };
 
 function addToInventory() {
@@ -68,44 +89,41 @@ function addToInventory() {
         if (err) throw err;
         for (var i in res) {
             itemArr.push(res[i].product_name)
-        }
-        connection.end();
-        // console.log(itemArr);
-    });
-    inquirer.prompt([
-        {
-            type: "list",
-            name: "item",
-            message: "What item would you like to add more of?",
-            choices: itemArr
-        },
-        {
-            type: "input",
-            name: "number",
-            message: "How many would you like to add to inventory?"
-        }
-    ]).then((data) => {
-        connection.query(
-            "UPDATE products SET ? WHERE ?",
-            [
-                {
-                    stock_quantity: (stock_quantity + data.number)
-                },
-                {
-                    product_name: data.item
-                }
-            ],
-            (err, res) => {
-                console.log(res.affectedRows + " products updated!\n");
+        };
+        console.log(itemArr);
+        inquirer.prompt([
+            {
+                type: "list",
+                name: "item",
+                message: "What item would you like to add more of?",
+                choices: itemArr
+            },
+            {
+                type: "input",
+                name: "number",
+                message: "How many would you like to add to inventory?"
             }
-        )
+        ]).then((data) => {
+            connection.query(
+                "UPDATE products SET ? WHERE ?",
+                [
+                    {
+                        stock_quantity: (stock_quantity + data.number)
+                    },
+                    {
+                        product_name: data.item
+                    }
+                ],
+                (err, res) => {
+                    console.log(res.affectedRows + " products updated!\n");
+                }
+            )
+        });
     });
+
 };
 
-connection.connect(err => {
-    if (err) throw err;
-    start();
-});
+
 // Running this application will:
 const start = () => {
     inquirer.prompt([
@@ -128,15 +146,15 @@ const start = () => {
             addToInventory();
         } else {
             // If a manager selects Add New Product, it should allow the manager to add a completely new product to the store.
+            addNewProduct();
         }
-
-
-
-
-
     })
 }
 
+connection.connect(err => {
+    if (err) throw err;
+    start();
+});
 
 
 
