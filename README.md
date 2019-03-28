@@ -67,8 +67,21 @@ Add to inventory allows a user to add more of any item to its existing inventory
 
 Add new product allows the user to add a new product to the database. The user is prompted to set the name of the product, the department that item belongs in, the price of the item, and lastly the quantity to add to inventory.  
 
-
 [![Image from Gyazo](https://i.gyazo.com/4b467c39d978f2e35f26340ad57e27a6.gif)](https://gyazo.com/4b467c39d978f2e35f26340ad57e27a6)
+
+### bamazonSupervisor.js
+
+The bamazonSupervisor.js application prompts the user with two choices, "View product sales by department", and "Add new department". The options behave as you would expect. Calculations for product sales and total profit are calculated on the fly in the mySQL query.
+
+[![Image from Gyazo](https://i.gyazo.com/2faa985d30c3bbf8776b1d73ab0e93fb.png)](https://gyazo.com/2faa985d30c3bbf8776b1d73ab0e93fb)
+
+View product sales by department: 
+
+[![Image from Gyazo](https://i.gyazo.com/69c95b0d710cf51aab8c8ae6738d3004.gif)](https://gyazo.com/69c95b0d710cf51aab8c8ae6738d3004)
+
+Add new department: 
+
+[![Image from Gyazo](https://i.gyazo.com/94665c8def4508b00ab061a03344ca08.gif)](https://gyazo.com/94665c8def4508b00ab061a03344ca08)
 
 ## More Info
 
