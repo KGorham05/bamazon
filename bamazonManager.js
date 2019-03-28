@@ -90,7 +90,6 @@ function addToInventory() {
         for (var i in res) {
             itemArr.push(res[i].product_name)
         };
-        console.log(itemArr);
         inquirer.prompt([
             {
                 type: "list",

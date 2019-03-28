@@ -30,51 +30,45 @@ To use Bamazon, begin by opening your terminal and navigating to the folder wher
 
 ### bamazonCustomer.js
 
-After entering 'Node bamazonCustomer.js' into the terminal, the user will be presented with a list of products they can order. 
+Enter 'Node bamazonCustomer.js' into the terminal, and the user will be presented with a list of products they can order. 
 
 [![Image from Gyazo](https://i.gyazo.com/700d725b1fbbd70f2385c16fca3be844.gif)](https://gyazo.com/700d725b1fbbd70f2385c16fca3be844)
 
-To purchase one of these products the user inputs the item number into the terminal. Next, the user is prompted for the number of units they'd like to order. Lastly, the application confirms that there is enough of the item in inventory to fulfill the order and the order is processed. The application also displays the final cost of your purchase. 
+To purchase one of these products the user inputs the item number into the terminal. Next, the user is prompted for the number of units they'd like to order. Lastly, the application confirms that there is enough of the item in inventory to fulfill the order and the order is processed. The application also displays the final cost of the purchase. 
 
 ### bamazonManager.js
 
-The concert-this command accepts artists as an input, and returns that artist's upcoming performances venue name, location, and the date of each show. 
+The bamazonManager.js file promts the user with four choices. 
 
-[![Image from Gyazo](https://i.gyazo.com/600e5570b174617ca42e1d9bc8d9f1b6.gif)](https://gyazo.com/600e5570b174617ca42e1d9bc8d9f1b6)
+1. View Products for Sale
+2. View Low Inventory
+3. Add to Inventory
+4. Add New Product
 
-### spotify-this-song
+#### View Products for Sale
 
-The spotify-this-song command accepts a song title as an input, and returns information about songs with that title. Specifically we return the artist name, song title, album name, and a URL to a preview of the song. 
+The view products for sale option displays the product names, prices, and quantity of each in the inventory. 
 
-[![Image from Gyazo](https://i.gyazo.com/4b0f5c34b091c36c689d364a7a181a1d.gif)](https://gyazo.com/4b0f5c34b091c36c689d364a7a181a1d)
+[![Image from Gyazo](https://i.gyazo.com/00f33ba636ca2f4fbafdfef1791d1eeb.gif)](https://gyazo.com/00f33ba636ca2f4fbafdfef1791d1eeb)
 
-### movie-this
+#### View Low Inventory
 
-The movie-this command accepts a movie title as an input, and returns information about that film. Specifically, we display the title, year released, various ratings, a plot summary, lead actors and actresses, the country it was produced in, and even the language of the film.
+The view low inventory option displays all items with 5 or less of that item in inventory. 
 
-[![Image from Gyazo](https://i.gyazo.com/5008baa82fc97f491d0544d37a5acc5a.gif)](https://gyazo.com/5008baa82fc97f491d0544d37a5acc5a)
+[![Image from Gyazo](https://i.gyazo.com/329d556ba0655f68e2cdf94dd6a26e04.gif)](https://gyazo.com/329d556ba0655f68e2cdf94dd6a26e04)
 
-### do-what-it-says
+#### Add to Inventory
 
-In addition to accepting commands through the terminal, LIRI can also accept commands and arguments written in the random.txt file. 
+Add to inventory allows a user to add more of any item to its existing inventory. The app then displays all items with their updated quantities. 
 
-The do-what-it-says command looks in the random.txt file and executes the LIRI search command indicated in that text file. Currently, the random.txt file displays one line: 
+[![Image from Gyazo](https://i.gyazo.com/b66d621d9b3677c7dcd0e5be6c9e724b.gif)](https://gyazo.com/b66d621d9b3677c7dcd0e5be6c9e724b)
 
-[![Image from Gyazo](https://i.gyazo.com/163401b6d0de25f66b8672dc8a9f598a.png)](https://gyazo.com/163401b6d0de25f66b8672dc8a9f598a)
+#### Add New Product
 
-In the example, we input 
->Node liri.js do-what-it-says
+Add new product allows the user to add a new product to the database. The user is prompted to set the name of the product, the department that item belongs in, the price of the item, and lastly the quantity to add to inventory.  
 
 
-into the terminal. LIRI calls the spotify-this-song command with the argument "something about us" and returns information about a that song by Daft Punk. If you've cloned this repo, you can input different commands and parameters into the random.txt file and see how the do-what-it-says command returns different results. 
-
-[![Image from Gyazo](https://i.gyazo.com/277be18cb393b518fddc79fa4bb19906.gif)](https://gyazo.com/277be18cb393b518fddc79fa4bb19906)
-
-### Logging the data
-
-In addition to printing the response to the console, LIRI also logs it's responses to a text file called log.txt.
-
-[![Image from Gyazo](https://i.gyazo.com/4cd768ab6e61b3b5b907d0b8e5de627b.gif)](https://gyazo.com/4cd768ab6e61b3b5b907d0b8e5de627b)
+[![Image from Gyazo](https://i.gyazo.com/4b467c39d978f2e35f26340ad57e27a6.gif)](https://gyazo.com/4b467c39d978f2e35f26340ad57e27a6)
 
 ## More Info
 
