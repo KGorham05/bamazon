@@ -72,7 +72,7 @@ Add new product allows the user to add a new product to the database. The user i
 
 ## More Info
 
-The **github** for this project can be found here: [Github](https://github.com/KGorham05/liri-node-app)
+The **github** for this project can be found here: [Github](https://github.com/KGorham05/bamazon)
 ___
 This project was created and is maintained by **Kevin Gorham**.  
 

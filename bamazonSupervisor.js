@@ -8,6 +8,9 @@ const connection = mysql.createConnection({
     database: "bamazon_db"
 });
 
+const viewSalesQuery = "SELECT departments.department_id, departments.department_name, departments.over_head_costs, SUM(products.product_sales) AS 'Product Sales', (SUM(products.product_sales) - departments.over_head_costs) AS  'Total Profit' FROM departments LEFT JOIN products ON products.department_id=departments.department_id GROUP BY departments.department_name, departments.department_id, departments.over_head_costs ORDER BY departments.department_id ASC;";
+
+
 function start() {
     inquirer.prompt([
         {
@@ -19,24 +22,34 @@ function start() {
     ]).then((data) => {
         console.log(data.command);
         if (data.command === "View Product Sales by Department") {
-            // When a supervisor selects View Product Sales by Department, the app should display a summarized table in their terminal/bash window. Use the table below as a guide.
-            // department_id	department_name	over_head_costs	product_sales	total_profit
-            // 01	Electronics	10000	20000	10000
-            // 02	Clothing	60000	100000	40000
-            // The total_profit column should be calculated on the fly using the difference between over_head_costs and product_sales. total_profit should not be stored in any database. You should use a custom alias.
-
-            // If you can't get the table to display properly after a few hours, then feel free to go back and just add total_profit to the departments table.
-
+            connection.query(viewSalesQuery, (err, res) => {
+                if (err) throw err;
+                console.table(res);
+                start();
+            });
         } else if (data.command === "Create New Department") {
-
+            inquirer.prompt([{
+                name: "new_dept",
+                message: "What is the Name of the new Department?",
+                type: "input"
+            }, {
+                name: "new_overhead",
+                message: "What is this departments overhead costs",
+                type: "input"
+            }]).then(function (answers) {
+                connection.query(`INSERT INTO departments (department_name, over_head_costs) VALUES ("${answers.new_dept}", ${answers.new_overhead})`, (err, res) => {
+                    if (err) throw err;
+                    console.log("Department added successfully!")
+                    start();
+                });
+            });
+            
         } else {
+            console.log("Come back soon!")
             connection.end();
         }
     })
 }
-
-
-
 
 
 // Hint: You may need to look into aliases in MySQL.
@@ -45,7 +58,7 @@ function start() {
 
 // Hint: You may need to look into JOINS.
 
-// HINT: There may be an NPM package that can log the table to the console. What's is it? Good question :)
+
 connection.connect(err => {
     if (err) throw err;
     start();
